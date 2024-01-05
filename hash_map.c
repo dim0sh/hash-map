@@ -150,19 +150,31 @@ int find_key_list(item_t * list, int key)
     }
     return -1;
 }
-
+/**
+* Hashmap
+* @param int count
+* @param int size
+* @param item_t array
+*/
 typedef struct Hashmap
 {
     int count;
     int size;
     item_t ** arr;
 } hashmap_t;
-
+/**
+* hashfunktion
+* @param int key
+* @return int hash value
+*/
 int hash_fn(int key)
 {
     return key%Capacity;
 }
-
+/**
+* Initializes empty hashmap
+* @param hashmap_t
+*/
 void init_map(hashmap_t ** map)
 {
     item_t * arr[Capacity];
@@ -177,21 +189,39 @@ void init_map(hashmap_t ** map)
     new_map->size = Capacity;
     *map = new_map;
 }
-
+/**
+* insert element into hashmap
+* @param hashmap_t map
+* @param int key
+* @param int val
+*/
 void insert(hashmap_t * map,int key, int val)
 {
     int hash_val = hash_fn(key);
     push_begin(&map->arr[hash_val],key,val);
+    map->count += 1;
 }
+/**
+* find key in hashmap and return value
+* @param hashmap_t map
+* @param int key
+* @return int value
+*/
 int find_key(hashmap_t * map, int key)
 {
     int hash_val = hash_fn(key);
     return find_key_list(map->arr[hash_val],key);
 }
+/**
+* deletes element from hashmap
+* @param hashmap_t map
+* @param int key
+*/
 void delete_key(hashmap_t * map, int key)
 {
     int hash_val = hash_fn(key);
     delete_key_list(&map->arr[hash_val],key);
+    map->count -= 1;
 }
 
 int main()
@@ -200,10 +230,12 @@ int main()
     init_map(&map);
     insert(map,8,30);
     insert(map,58,57);
+    printf("count: %d\n",map->count);
     // print_list(map->arr[8]);
     insert(map,12,68);
-    // printf("12\n");
-    printf("%d",find_key(map,58));
+    printf("count: %d\n",map->count);
+    printf("find key 58: %d\n",find_key(map,58));
     delete_key(map,8);
-    printf("%d",find_key(map,8));
+    printf("find key 8: %d\n",find_key(map,8));
+    printf("count: %d\n",map->count);
 }
