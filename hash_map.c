@@ -223,6 +223,15 @@ void delete_key(hashmap_t * map, int key)
     delete_key_list(&map->arr[hash_val],key);
     map->count -= 1;
 }
+/**
+* calculate Hashmap load value
+* @param hashmap map
+* @return int load_val
+*/
+int load_val(hashmap_t * map)
+{
+    return map->count/map->size;
+}
 
 int main()
 {
