@@ -150,6 +150,19 @@ int find_key_list(item_t * list, int key)
     }
     return -1;
 }
+void destroy_linked_list(item_t * item)
+{
+    item_t * current = item;
+    item_t * tmp;
+    while(current->next != NULL)
+    {
+        tmp = current;
+        current = current->next;
+        free(tmp);
+        return;
+    }
+    free(item);
+}
 /**
 * Hashmap
 * @param int count
@@ -232,6 +245,16 @@ int load_val(hashmap_t * map)
 {
     return map->count/map->size;
 }
+// not sure.
+// void destroy_hash_map(hashmap_t * map)
+// {
+//     for (int i = 0; i<map->size; i++)
+//     {
+//         destroy_linked_list(map->arr[i]);
+//     }
+//     free(map->arr);
+//     free(map);
+// }
 
 int main()
 {
@@ -247,4 +270,5 @@ int main()
     delete_key(map,8);
     printf("find key 8: %d\n",find_key(map,8));
     printf("count: %d\n",map->count);
+    // destroy_hash_map(map);
 }
